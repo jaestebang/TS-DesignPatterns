@@ -28,6 +28,49 @@ Proveen diferentes mecanismos para crear objetos. Definen cómo puede crearse un
 - **Prototype:**
 - **Singleton:** Es un patrón que te asegura que una clase solo tiene una instancia. Esta única instancia puede ser consumida por cualquier otro objeto.
 
+    - Patrón de diseño singleton JavaScript - TypeScript
+    ```JavaScript
+    /**
+    * Class SingletonIdPlayer: Patron de diseñon Singleton
+    */
+    export class SingletonIdPlayer {
+
+        //Variables privadas
+        private static instance: SingletonIdPlayer;
+        public iterator: number = 0;
+
+        /**
+        * Constructor privado para impedir creaciones de clase
+        */
+        private constructor() {
+        }
+
+        /**
+        * Retorna una única instancia
+        * @returns Instancia
+        */
+        public static getInstance(): SingletonIdPlayer {
+            if (!SingletonIdPlayer.instance)
+                SingletonIdPlayer.instance = new SingletonIdPlayer();
+            
+            //Incrementa identificador
+            SingletonIdPlayer.instance.iterator += 1;
+            
+            return SingletonIdPlayer.instance;
+        }
+    }
+    ```
+
+    - Patrón de diseño singleton Java - Spring Boot
+
+        **Ámbito de Bean:**  De forma predeterminada, los beans de Spring son singletons. Esto significa que, por defecto, Spring crea y administra solo una instancia de un bean en el contenedor de Spring. Esta única instancia se comparte luego entre todos los componentes y servicios que la requieran. Este comportamiento asegura que los recursos se gestionen de manera efectiva y se evite la sobrecarga de crear múltiples instancias del mismo bean.
+
+        **Contexto de Aplicación:** Spring Boot crea y mantiene un contexto de aplicación que administra el ciclo de vida de los beans. Cuando defines un bean en una aplicación Spring Boot, generalmente es un singleton de manera predeterminada, a menos que especifiques explícitamente un ámbito diferente.
+
+        **Exploración de Componentes:** Spring Boot utiliza la exploración de componentes para descubrir y registrar automáticamente beans en tu aplicación. Los componentes anotados, como *@Service*, *@Repository* y *@Controller*, son, por defecto, singletons a menos que se especifique lo contrario.
+
+        **Inyección de Dependencias:** Los beans singleton se inyectan en otros beans o componentes que dependen de ellos. Esto asegura que siempre se utilice la misma instancia de un bean en toda la aplicación.
+
 ## Patrones estructurales
 
 Describen formas de componer objetos para formar estructuras flexibles y eficientes.
