@@ -24,7 +24,78 @@ Proveen diferentes mecanismos para crear objetos. Definen cómo puede crearse un
     - Separa la creación de un objeto complejo de su estructura, de tal forma que el mismo proceso de construcción puede servir para crear representaciones diferentes.
     - JQuery lo usa para crear sus objetos.
 
-- **Factory Method:**
+- **Factory Method:** Se utiliza para crear objetos sin especificar la clase exacta de objeto que se creará.
+
+    - Patrón de diseño factory Java - Spring Boot
+
+        **Clase abstracta:** Factura implementa un método abstracto
+        ```Java
+        @Getter
+        @Setter
+        public abstract class Invoice {
+            
+            private int id;
+            private double price;
+            public abstract double getPriceWithTaxes();
+        }
+        ```
+
+        **Clase extendida** Factura impuestos reducidos, extiende de clase abstracta e implementa el método
+        ```Java
+        public class InvoiceReducedTaxes extends Invoice {
+            
+            @Override
+            public double getPriceWithTaxes() {
+                // TODO Auto-generated method stub
+                return getPrice() * 1;
+            }
+        }
+        ```
+
+        **Clase extendida** Factura con impuestos, extiende de clase abstracta e implementa el método
+        ```Java
+        public class InvoiceTaxes extends Invoice {
+            
+            @Override
+            public double getPriceWithTaxes() {
+                // TODO Auto-generated method stub
+                return getPrice() * 1.07;
+            }
+        }
+        ```
+
+        **Factory component** Factoría de factura, crea una instancia y la retorna basado en condiciones
+        ```Java
+        @Component
+        public class InvoiceFactory {
+
+            public Invoice createBean(String type) {
+                if ("iva".equals(type)) {
+                    return new InvoiceTaxes();
+                } else if ("".equals(type)) {
+                    return new InvoiceReducedTaxes();
+                }
+                // Handle other cases or throw an exception for unknown types.
+            }
+        }
+        ```
+
+        **Inyección de dependencia** Inyecta el factory bean y lo utiliza
+        ```Java
+        @Service
+        public class InvoiceService {
+
+            @Autowired
+            private final InvoiceFactory invoiceFactory;
+
+            public void doSomething(String type) {
+                Invoice invoiceBean = invoiceFactory.createBean(type);
+                invoiceBean.getPriceWithTaxes();
+                // Use the created bean as needed.
+            }
+        }
+        ```        
+
 - **Prototype:**
 - **Singleton:** Es un patrón que te asegura que una clase solo tiene una instancia. Esta única instancia puede ser consumida por cualquier otro objeto.
 
